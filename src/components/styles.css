@@ -1,0 +1,95 @@
+.to-do-list__container {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 50px
+}
+
+.to-do-list__container > div {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+
+form {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px
+}
+
+input {
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 1px solid white;
+    padding: 0 20px;
+    color: #00416A;
+    outline: none;
+}
+
+.container {
+    width: 100%;
+    min-height: 40px;
+    margin: 0 auto 10px auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    align-items: center;
+}
+
+.content div {
+    width: 70px;
+    position: absolute;
+    right: 0;
+    justify-content: space-between;
+    display: flex
+}
+
+.content p {
+    margin: 0;
+    color: #00416A;
+    font-weight: 400;
+}
+
+#ok, #x {
+    color: white;
+    font-weight: bold;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 3px 8px
+}
+
+#ok {
+    background-color: green;
+    border: solid green 1px;
+}
+
+#x {
+    background-color: red;
+    border: solid red 1px;
+}
+
+#ok:hover, #x:hover {
+    opacity: 0.6;
+}
+
+.--strikethrough {
+    text-decoration: line-through
+}
