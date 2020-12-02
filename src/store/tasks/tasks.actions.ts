@@ -57,7 +57,8 @@ export const createTask = (task: Task) => {
 
     dispatch(taskResponse({
       ...getState().tasks,
-      tasks: getResponse.data
+      tasks: getResponse.data,
+      isFetching: false
     }))
   }
 }
@@ -80,7 +81,8 @@ export const deleteTask = (task: Task) => {
 
     dispatch(taskResponse({
       ...getState().tasks,
-      tasks: getResponse.data
+      tasks: getResponse.data,
+      isFetching: false
     }))
   }
 

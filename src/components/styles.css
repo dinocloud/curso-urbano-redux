@@ -93,3 +93,7 @@ input {
 .--strikethrough {
     text-decoration: line-through
 }
+
+.to-do-list__container > p {
+    color: white
+}

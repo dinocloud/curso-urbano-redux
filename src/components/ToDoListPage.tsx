@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Input from './Input';
 import Item from './Item';
 import './styles.css';
@@ -25,7 +25,17 @@ interface LinkStateProps {
 
 type ToDoListProps = LinkDispatchProps & LinkStateProps;
 
-const ToDoListPage: React.FC<ToDoListProps> = (props) => {
+const ToDoListPage: React.FC<ToDoListProps> = ({
+    getTasks,
+    createTask,
+    deleteTask,
+    isFetching,
+    tasks
+}) => {
+
+    useEffect(() => {
+        getTasks();
+    }, [getTasks])
 
     function addTask(e: any, task: string)  {
         e.preventDefault();
@@ -33,16 +43,17 @@ const ToDoListPage: React.FC<ToDoListProps> = (props) => {
             title: task,
             done: false
         }
-        props.createTask(newTask);
+        createTask(newTask);
     }
 
     return (
         <div className="to-do-list__container">
             <Input addTask={addTask}/>
+            { isFetching && <p> Cargando ... </p> }
             <div>
-                { props.tasks.map((task: Task, idx: number) => 
+                { tasks.map((task: Task, idx: number) => 
                     <Item 
-                    removeTask={props.deleteTask}
+                    removeTask={deleteTask}
                     key={idx} 
                     task={task}/>
                 )}
