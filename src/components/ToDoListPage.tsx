@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Input from './Input';
 import Item from './Item';
 import './styles.css';
-import { v4 as uuidv4 } from 'uuid';
+import {
+    getTasks,
+    createTask,
+    deleteTask
+} from '../store/tasks/tasks.actions';
 import { Task } from '../store/tasks/tasks.type';
-import { addTask, deleteTask } from '../store/tasks/tasks.actions';
 import { bindActionCreators, ThunkDispatch } from '@reduxjs/toolkit';
 import { RootState } from '../store/root-reducer';
 import { connect } from 'react-redux';
 
 interface LinkDispatchProps {
-    addTask: (task:Task) => void;
-    deleteTask: (id:string) => void;
+    getTasks: () => void;
+    createTask: (task: Task) => void;
+    deleteTask: (task: Task) => void;
 }
   
 interface LinkStateProps {
     tasks: Task[];
+    isFetching: boolean;
 }
 
 type ToDoListProps = LinkDispatchProps & LinkStateProps;
 
 const ToDoListPage: React.FC<ToDoListProps> = (props) => {
+
     function addTask(e: any, task: string)  {
         e.preventDefault();
         let newTask: Task = {
-            id: uuidv4(),
-            text: task,
+            title: task,
             done: false
         }
-        props.addTask(newTask);
+        props.createTask(newTask);
     }
 
     return (
@@ -50,15 +55,17 @@ const ToDoListPage: React.FC<ToDoListProps> = (props) => {
 const mapDispatchToProps = (
     dispatch: ThunkDispatch<any, any, any>
   ): LinkDispatchProps => ({
-    addTask: bindActionCreators(addTask, dispatch),
-    deleteTask: bindActionCreators(deleteTask, dispatch),
+    getTasks: bindActionCreators(getTasks, dispatch),
+    createTask: bindActionCreators(createTask, dispatch),
+    deleteTask: bindActionCreators(deleteTask, dispatch)
   });
   
 const mapStateToProps = (state: RootState): LinkStateProps => {
-    const { tasks } = state.tasks;
+    const { tasks, isFetching} = state.tasks;
 
     return {
-        tasks
+        tasks,
+        isFetching
     };
 };
 

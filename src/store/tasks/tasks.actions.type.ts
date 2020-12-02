@@ -1,17 +1,18 @@
-import { TaskState, Task} from './tasks.type';
+import { TaskState } from './tasks.type';
 
-export const ADD_TASK = 'ADD_TASK';
+export const TASK_REQUEST = 'TASK_REQUEST';
+export const TASK_RESPONSE = 'TASK_RESPONSE'; 
 
-export const DELETE_TASK = 'DELETE_TASK';
-
-export interface AddTaskAction {
-  type: typeof ADD_TASK;
-  task: Task;
+export interface TaskRequestAction {
+  type: typeof TASK_REQUEST;
+  payload: TaskState
 }
 
-export interface DeleteTaskAction {
-  type: typeof DELETE_TASK;
-  id: string;
+export interface TaskResponseAction {
+  type: typeof TASK_RESPONSE;
+  payload: TaskState
 }
 
-export type TasksActions = AddTaskAction | DeleteTaskAction;
+export type TaskActionTypes = TaskRequestAction | TaskResponseAction;
+
+export type TasksActions = TaskActionTypes;

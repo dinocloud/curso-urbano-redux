@@ -1,9 +1,10 @@
 export interface Task {
-  id: string,
-  text: string,
+  id?: number,
+  title: string,
   done: boolean
 }
 
 export interface TaskState {
-  tasks: Task[]
+  tasks: Task[],
+  isFetching: boolean
 }

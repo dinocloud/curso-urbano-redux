@@ -4,7 +4,7 @@ import './styles.css';
 
 interface ItemProps {
     task: Task;
-    removeTask: (id: string) => void;
+    removeTask: (task: Task) => void;
 }
 
 const Item: React.FC<ItemProps> = ({ 
@@ -14,11 +14,11 @@ const Item: React.FC<ItemProps> = ({
     return (
         <div className="container">
             <div className="content">
-                <p className={task.done ? "--strikethrough" : ""}> { task.text } </p>
+                <p className={task.done ? "--strikethrough" : ""}> { task.title } </p>
                 <div>
                     <button id="ok"> OK </button>
                     <button 
-                    onClick={() => removeTask(task.id)}
+                    onClick={() => removeTask(task)}
                     id="x"> X </button>
                 </div>
             </div>

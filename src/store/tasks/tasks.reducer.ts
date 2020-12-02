@@ -1,24 +1,25 @@
 import { TaskState } from './tasks.type';
-import { TasksActions, DELETE_TASK, ADD_TASK } from './tasks.actions.type';
+import { TasksActions, TASK_RESPONSE, TASK_REQUEST } from './tasks.actions.type';
 
 const defaultState: TaskState = {
-  tasks: []
+  tasks: [],
+  isFetching: false
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (state = defaultState, action: TasksActions): TaskState => {
   switch (action.type) {
-    case ADD_TASK: {
+    case TASK_RESPONSE: {
       return {
-        tasks:[...state.tasks, action.task],
+        ...action.payload
+      }
+    }
+    case TASK_REQUEST: {
+      return {
+        ...action.payload
       };
     }
-    case DELETE_TASK: {
-      return {
-        tasks: state.tasks.filter(el => el.id !== action.id),
-      };
-    }
-    default: {
+    default: 
       return state;
-    }
   }
 };

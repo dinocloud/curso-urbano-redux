@@ -1,39 +1,87 @@
-import { TasksActions, ADD_TASK, DELETE_TASK } from './tasks.actions.type';
-import { Task } from './tasks.type';
+import { TasksActions, TASK_RESPONSE, TASK_REQUEST } from './tasks.actions.type';
+import { Task, TaskState } from './tasks.type';
 import { Dispatch } from 'redux';
 import { RootState } from '../root-reducer';
+import taskService from '../../services/task.service';
 
-const addTaskAction = (task: Task): TasksActions => {
+const taskRequest = (taskState: TaskState): TasksActions => {
   return {
-    type: ADD_TASK,
-    task,
-  };
-};
+    type: TASK_REQUEST,
+    payload: taskState
+  }
+}
 
-const deleteTaskAction = (id: string): TasksActions => {
+const taskResponse = (taskState: TaskState): TasksActions => {
   return {
-    type: DELETE_TASK,
-    id,
-  };
-};
+    type: TASK_RESPONSE,
+    payload: taskState
+  }
+}
 
-export const addTask = (task: Task) => {
-  return async (dispatch: Dispatch<TasksActions>, getState: () => RootState) => {
-    dispatch(addTaskAction(task));
-  };
-};
-
-export const deleteTask = (id: string) => {
-  return async (dispatch: Dispatch<TasksActions>, getState: () => RootState) => {
-    dispatch(deleteTaskAction(id));
-  };
-};
-
-/*
 export const getTasks = () => {
   return async (dispatch: Dispatch<TasksActions>, getState: () => RootState) => {
-    const tasks = taskService.getTasks();
-    dispatch(getTaskAction(tasks));
-  };
-};
-*/
+
+    dispatch(taskRequest({
+      ...getState().tasks,
+      isFetching: true
+    }))
+
+    const response: any = await taskService.getTasks()
+    .catch( (e) => console.error(e) );
+
+    if (!response) return;
+
+    dispatch(taskResponse({
+      ...getState().tasks,
+      tasks: response.data,
+      isFetching: false
+    }))
+  }
+} 
+
+export const createTask = (task: Task) => {
+  return async (dispatch: Dispatch<TasksActions>, getState: () => RootState) => {
+
+    dispatch(taskRequest({
+      ...getState().tasks,
+      isFetching: true
+    }));
+
+    const createResponse: any = await taskService.createTask(task)
+    .catch((e) => console.error(e));
+
+    const getResponse: any = await taskService.getTasks()
+    .catch((e) => console.error(e));
+
+    if(!createResponse && !getResponse) return;
+
+    dispatch(taskResponse({
+      ...getState().tasks,
+      tasks: getResponse.data
+    }))
+  }
+}
+
+export const deleteTask = (task: Task) => {
+  return async (dispatch: Dispatch<TasksActions>, getState: () => RootState) => {
+
+    dispatch(taskRequest({
+      ...getState().tasks,
+      isFetching: true
+    }));
+
+    const deleteResponse = await taskService.deleteTask(task)
+    .catch((e) => console.log(e) );
+
+    const getResponse: any = await taskService.getTasks()
+    .catch((e) => console.error(e));
+
+    if(!deleteResponse && !getResponse) return;
+
+    dispatch(taskResponse({
+      ...getState().tasks,
+      tasks: getResponse.data
+    }))
+  }
+
+}
